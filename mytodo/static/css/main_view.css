@@ -1,0 +1,78 @@
+
+*{
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+.column {
+    float: left;
+    height: 100vh;
+}
+
+#sideNav {
+    width: 20%;
+    background-color: #E8E8E8;
+}
+
+#main {
+    width: 80%;
+}
+
+#topNav {
+    height: 15%;
+    width: 100%;
+    border-bottom: 0.1em solid black;
+}
+#mainView{
+    height: 85%;
+    width: 100%;
+}
+#topNavDate {
+    margin-right: 20vw;
+}
+
+#topNavBar {
+    display: inline;
+}
+
+.topNavButton {
+    background-color: #E8E8E8;
+    text-transform: uppercase;
+}
+#monthView{
+    height: 100%;
+    width: 100%;
+}
+#dayLabels{
+    width: 100%;
+    clear: both;
+}
+.dayLabel {
+    float: left;
+    height: 100%;
+    width: 14.28%;
+}
+
+#dayCells{
+    height: 100%;
+}
+
+.dayRow{
+    height: 20%;
+    width: 100%;
+    clear: both;
+}
+.dayCell {
+    float: left;
+    border: 0.1em solid black;
+    height: 100%;
+    width: 13.95%;
+}
+
+.dayTodo{
+    height: 25%;
+}

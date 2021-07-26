@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block header %}
+<h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<p>To register, just click the button bellow. You will receive a code that identifies you.</p>
+<button type="button" onclick="register()">Register</button>
+<script>
+    function register() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            document.getElementById("token_display").innerHTML = this.responseText;
+        }
+        xhttp.open("POST", "{{ url_for('auth.register') }}", true);
+        xhttp.send();
+    }
+</script>
+<p id="token_display"></p>
+<li><a href="{{ url_for('auth.login') }}">Login</a>
+    {% endblock %}
