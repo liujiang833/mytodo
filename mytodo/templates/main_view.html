@@ -15,9 +15,9 @@
         <div id="topNav">
             <span id="topNavDate">{{get_current_date() }}</span>
             <div id="topNavBar">
-                <span class="topNavButton">Day</span>
-                <span class="topNavButton">Week</span>
-                <span class="topNavButton">Month</span>
+                <span class="topNavButton" onclick="DayFunction()">Day</span>
+                <span class="topNavButton" onclick="WeekFunction()">Week</span>
+                <span class="topNavButton" onclick="MonthFunction()">Month</span>
             </div>
         </div>
         <div id="mainView">
@@ -32,13 +32,13 @@
                     <span class="dayLabel">Sun</span>
                 </div>
                 <div id="dayCells">
-                    {% for row in g.month_info %} 
+                    {% for row in g.month_info %}
                         <div class="dayRow">
                         {% for col in row%}
                             <span class="dayCell">
                             {% for day in col[1] %}
                             <span class="dayTodo">{{ day[1] }}</span>
-                            {% endfor %} 
+                            {% endfor %}
                             </span>
                         {% endfor%}
                         </div>
@@ -52,6 +52,7 @@
 
     </div>
     </div>
+<script src=" .js"></script>
 </body>
 
 </html>
