@@ -1,0 +1,4 @@
+include mytodo/create_db.sql
+graft mytodo/static
+graft mytodo/templates
+global-exclude *.pyc
