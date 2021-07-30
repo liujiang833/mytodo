@@ -1,63 +1,21 @@
-<!doctype html>
 <html>
-<head>
-     <link rel="stylesheet" href="css/main_view.css">
-     <title>Mytodo</title>
-</head>
-<body>
-    <div id="sideNav" class="column">
-        <h1>Side Navigation Bar</h1>
-        <div class="navItem">
-            Calendar
-        </div>
+  <body>
+    <div id="topNavBar">
+      <button type = "button" id = "day">Day</button>
+      <a href = "week.html">
+        <button type = "button" id = "week">Week</button>
+      </a>
+      <a href = "month.html">
+        <button type = "button" id = "month">Month</button>
+      </a>
     </div>
-
-    <div id="main" class="column">
-        <div id="topNav">
-            <span id="topNavDate">{{get_current_date() }}</span>
-            <div id="topNavBar">
-                <button type = "button" id = "day">Day</button>
-                <a href = "week.html">
-                  <button type = "button" id = "week">Week</button>
-                </a>
-                <a href = "month.html">
-                    <button type = "button" id = "month">Month</button>
-                </a>
-            </div>
-        </div>
-        <div id="mainView">
-            <div id="monthView">
-                <div id="dayLabels">
-                    <span class="dayLabel">Mon</span>
-                    <span class="dayLabel">Tue</span>
-                    <span class="dayLabel">Wed</span>
-                    <span class="dayLabel">Thu</span>
-                    <span class="dayLabel">Fri</span>
-                    <span class="dayLabel">Sat</span>
-                    <span class="dayLabel">Sun</span>
-                </div>
-                <div id="dayCells">
-                    {% for row in g.month_info %}
-                        <div class="dayRow">
-                        {% for col in row%}
-                            <span class="dayCell">
-                            {% for day in col[1] %}
-                            <span class="dayTodo">{{ day[1] }}</span>
-                            {% endfor %}
-                            </span>
-                        {% endfor%}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    </div>
-    </div>
-<script src=" .js"></script>
-</body>
-
+    <table>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+      </tr>
+    </table>
+  </body>
 </html>
