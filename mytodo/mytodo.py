@@ -14,7 +14,7 @@ NOT_READY = "Not ready"
 def index():
     g.month_info = get_todos_month_default()
     print(g.month_info)
-    return render_template("main_view.html")
+    return render_template("day.html")
 
 @bp.context_processor
 def current_date_processor():
