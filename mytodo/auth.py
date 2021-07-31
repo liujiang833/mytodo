@@ -1,21 +1,21 @@
-
 from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 import string
 import random
 import functools
 
 from flask.globals import session
-from .database import add_user, get_user
+from .database import DbDriver
 
+dbdriver = DbDriver
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 NOT_READY = "Not ready yet"
 
 
-@bp.route("/login",methods = ['GET','POST'])
+@bp.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        token = get_user(request.form['token'])
+        token = dbdriver.get_user(request.form['token'])
         if token is None:
             flash('invalid token')
         else:
@@ -23,35 +23,38 @@ def login():
             session['token'] = token
             return redirect(url_for('index'))
 
-
     return render_template('auth/login.html')
 
 
-@bp.route("/register",methods=['GET','POST'])
+@bp.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         token = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(32))
         # print('token')
-        add_user(token)
+        dbdriver.add_user(token)
         return token
     return render_template('auth/register.html')
+
 
 @bp.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('auth.login'))
 
+
 @bp.before_app_request
 def load_logged_in_user():
     g.user_id = session.get('user_id')
 
+
 def login_required(view):
-    print("login lock applied")
+
     @functools.wraps(view)
     def wrapped_view(**kwargs):
+        print("login checked")
+        print(g.user_id)
         if g.user_id is None:
             return redirect(url_for('auth.login'))
-
         return view(**kwargs)
 
     return wrapped_view

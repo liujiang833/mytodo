@@ -1,8 +1,4 @@
-from datetime import datetime
-from random import seed
-from typing import Mapping
 import sqlalchemy
-from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, DateTime, Time, Date, ForeignKey
 from sqlalchemy.orm import sessionmaker
@@ -21,19 +17,19 @@ from sqlalchemy.sql.sqltypes import Date
 Base = declarative_base()
 
 
-# user table
-
-
 class User(Base):
+    """
+    user table
+    """
     __tablename__ = "users"
     user_id = Column(Integer, primary_key=True, autoincrement=True)
     token = Column(String(32))
 
 
-# todo table
-
-
 class Todo(Base):
+    """
+    todo table
+    """
     __tablename__ = "todos"
     todo_number = Column(Integer,
                          primary_key=True, autoincrement=True)
@@ -45,7 +41,6 @@ class Todo(Base):
     description = Column(String(256))
 
 
-# global variables
 class DbDriver:
     def __init__(self):
         self.eng = None
@@ -65,14 +60,14 @@ class DbDriver:
     def add_todo(self, user_id, title, description, date, start="", end=""):
         session = self.get_session()
         session.add(Todo(user_id=user_id, date=date, start=start, end=end,
-                              title=title, description=description))
+                         title=title, description=description))
         session.commit()
         session.close()
 
     def get_todos_month(self, token, start_date, end_date):
-        '''
+        """
             :return: todos of a specific user between [start, end]
-        '''
+        """
         session = self.get_session()
         query = session.query(Todo.date, Todo.title, Todo.description) \
             .select_from(User).join(Todo) \

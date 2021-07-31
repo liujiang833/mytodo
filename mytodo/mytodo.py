@@ -1,10 +1,8 @@
-from mytodo.auth import NOT_READY
-from auth import login, login_required
+from .auth import login, login_required
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from datetime import date
-from database import get_todos_month
 
 bp = Blueprint('mytodo', __name__)
 

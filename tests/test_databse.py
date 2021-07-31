@@ -1,6 +1,4 @@
 import unittest
-import sqlalchemy
-from sqlalchemy.orm import sessionmaker
 from mytodo.database import User, Todo, Base, DbDriver
 from datetime import date
 
