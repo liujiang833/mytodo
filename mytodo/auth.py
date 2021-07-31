@@ -46,6 +46,7 @@ def load_logged_in_user():
     g.user_id = session.get('user_id')
 
 def login_required(view):
+    print("login lock applied")
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user_id is None:

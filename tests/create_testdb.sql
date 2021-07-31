@@ -17,3 +17,9 @@ CREATE TABLE `todos` (
 );
 
 ALTER TABLE `todos` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+INSERT into `users`(user_id, token)
+VALUES (1,'test_user1'),
+       (2,'test_user2'),
+       (3,'test_user3')
+;
