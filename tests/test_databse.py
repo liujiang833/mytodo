@@ -1,24 +1,25 @@
+import json
 import unittest
-from mytodo.database import User, Todo, Base, DbDriver
+from mytodo.database import User, Todo, Base, dbdriver
 from datetime import date
 
 
 class DbTestCase(unittest.TestCase):
     def test_get_todos_month(self):
-        result = self.dbdriver.get_todos_month("test_user1", "2021-6-11", "2021-6-12")
+        result = self.dbdriver.get_todos_month("test_user1", date(2021,6,11), date(2021,6,12))
         self.assertEqual(len(result), 0)
-        result = self.dbdriver.get_todos_month("test_user1", "2021-07-15", "2021-07-15")
+        result = self.dbdriver.get_todos_month("test_user1", date(2021,7,15), date(2021,7,15))
         self.assertEqual(len(result), 7)
-        result = self.dbdriver.get_todos_month("test_user1", "2021-07-16", "2021-07-22")
+        result = self.dbdriver.get_todos_month("test_user1", date(2021,7,16), date(2021,7,22))
         self.assertEqual(len(result), 6)
-        result = self.dbdriver.get_todos_month("test_user2", "2021-07-15", "2021-07-15")
+        result = self.dbdriver.get_todos_month("test_user2", date(2021,7,15), date(2021,7,15))
         self.assertEqual(len(result), 0)
-        result = self.dbdriver.get_todos_month("test_user3", "2021-01-01", "2021-12-31")
+        result = self.dbdriver.get_todos_month("test_user3", date(2021,1,1), date(2021,12,31))
         self.assertEqual(len(result), 0)
 
     def test_add_todo(self):
-        self.dbdriver.add_todo(1, "add1", "add1", "2021-8-31")
-        result = self.dbdriver.get_todos_month("test_user1", "2021-8-31", "2021-8-31")
+        self.dbdriver.add_todo(1, "add1", "add1", date(2021,8,31))
+        result = self.dbdriver.get_todos_month("test_user1", date(2021,8,31), date(2021,8,31))
         self.assertEqual(len(result), 1)
         result = result[0]
         self.assertEqual(result['date'], date(2021, 8, 31))
@@ -27,8 +28,7 @@ class DbTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.dbdriver = DbDriver()
-        cls.dbdriver.connect_to_db()
+        cls.dbdriver = dbdriver
         # clear database
         Base.metadata.drop_all(bind=cls.dbdriver.eng)
         Base.metadata.create_all(bind=cls.dbdriver.eng)
@@ -41,29 +41,29 @@ class DbTestCase(unittest.TestCase):
         session.commit()
 
         todos = [
-            Todo(user_id=1, date="2021-07-15", start="", end="", title="title1", description="desc1"),
-            Todo(user_id=1, date="2021-07-15", start="", end="", title="title2", description="desc2"),
-            Todo(user_id=1, date="2021-07-15", start="", end="", title="title3", description="desc3"),
-            Todo(user_id=1, date="2021-07-15", start="", end="", title="title4", description="desc4"),
-            Todo(user_id=1, date="2021-07-15", start="", end="", title="title5", description="desc5"),
-            Todo(user_id=1, date="2021-07-15", start="", end="", title="title6", description="desc6"),
-            Todo(user_id=1, date="2021-07-15", start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,7,15), start="", end="", title="title1", description="desc1"),
+            Todo(user_id=1, date=date(2021,7,15), start="", end="", title="title2", description="desc2"),
+            Todo(user_id=1, date=date(2021,7,15), start="", end="", title="title3", description="desc3"),
+            Todo(user_id=1, date=date(2021,7,15), start="", end="", title="title4", description="desc4"),
+            Todo(user_id=1, date=date(2021,7,15), start="", end="", title="title5", description="desc5"),
+            Todo(user_id=1, date=date(2021,7,15), start="", end="", title="title6", description="desc6"),
+            Todo(user_id=1, date=date(2021,7,15), start="", end="", title="title7", description="desc7"),
 
-            Todo(user_id=2, date="2021-07-16", start="", end="", title="title1", description="desc1"),
-            Todo(user_id=2, date="2021-07-16", start="", end="", title="title2", description="desc2"),
-            Todo(user_id=2, date="2021-07-16", start="", end="", title="title3", description="desc3"),
-            Todo(user_id=2, date="2021-07-16", start="", end="", title="title4", description="desc4"),
-            Todo(user_id=2, date="2021-07-16", start="", end="", title="title5", description="desc5"),
-            Todo(user_id=2, date="2021-07-16", start="", end="", title="title6", description="desc6"),
-            Todo(user_id=2, date="2021-07-16", start="", end="", title="title7", description="desc7"),
+            Todo(user_id=2, date=date(2021,7,16), start="", end="", title="title1", description="desc1"),
+            Todo(user_id=2, date=date(2021,7,16), start="", end="", title="title2", description="desc2"),
+            Todo(user_id=2, date=date(2021,7,16), start="", end="", title="title3", description="desc3"),
+            Todo(user_id=2, date=date(2021,7,16), start="", end="", title="title4", description="desc4"),
+            Todo(user_id=2, date=date(2021,7,16), start="", end="", title="title5", description="desc5"),
+            Todo(user_id=2, date=date(2021,7,16), start="", end="", title="title6", description="desc6"),
+            Todo(user_id=2, date=date(2021,7,16), start="", end="", title="title7", description="desc7"),
 
-            Todo(user_id=1, date="2021-07-16", start="", end="", title="title7", description="desc7"),
-            Todo(user_id=1, date="2021-07-17", start="", end="", title="title7", description="desc7"),
-            Todo(user_id=1, date="2021-07-18", start="", end="", title="title7", description="desc7"),
-            Todo(user_id=1, date="2021-07-19", start="", end="", title="title7", description="desc7"),
-            Todo(user_id=1, date="2021-07-20", start="", end="", title="title7", description="desc7"),
-            Todo(user_id=1, date="2021-07-21", start="", end="", title="title7", description="desc7"),
-            Todo(user_id=1, date="2021-08-15", start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,7,16), start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,7,17), start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,7,18), start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,7,19), start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,7,20), start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,7,21), start="", end="", title="title7", description="desc7"),
+            Todo(user_id=1, date=date(2021,8,15), start="", end="", title="title7", description="desc7"),
         ]
         session.add_all(todos)
         session.commit()

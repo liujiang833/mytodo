@@ -4,10 +4,8 @@ import random
 import functools
 
 from flask.globals import session
-from .database import DbDriver
+from .database import dbdriver
 
-dbdriver = DbDriver()
-dbdriver.connect_to_db()
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 NOT_READY = "Not ready yet"
@@ -16,12 +14,13 @@ NOT_READY = "Not ready yet"
 @bp.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
-        token = dbdriver.get_user(request.form['token'])
+        token, user_id = dbdriver.get_user(request.form['token'])
         if token is None:
             flash('invalid token')
         else:
             session.clear()
             session['token'] = token
+            session['user_id'] = user_id
             return redirect(url_for('index'))
 
     return render_template('auth/login.html')
