@@ -6,7 +6,8 @@ import functools
 from flask.globals import session
 from .database import DbDriver
 
-dbdriver = DbDriver
+dbdriver = DbDriver()
+dbdriver.connect_to_db()
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 NOT_READY = "Not ready yet"
@@ -51,9 +52,8 @@ def login_required(view):
 
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        print("login checked")
-        print(g.user_id)
-        if g.user_id is None:
+        if session.get('token') is None:
+            flash("Login required!\n")
             return redirect(url_for('auth.login'))
         return view(**kwargs)
 
