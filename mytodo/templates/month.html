@@ -1,62 +1,68 @@
 <!doctype html>
 <html>
 <head>
-     <link rel="stylesheet" href="css/main_view.css">
-     <title>Mytodo</title>
+    <link rel="stylesheet" href="{{ url_for("static",filename="css/month.css") }}">
+    <script src="{{ url_for("static", filename="js/jquery-3.6.0.js") }}"></script>
+    <script src="{{ url_for("static",filename="js/month.js") }}"></script>
+    <title>Mytodo</title>
 </head>
 <body>
-    <div id="sideNav" class="column">
-        <h1>Side Navigation Bar</h1>
-        <div class="navItem">
-            Calendar
+<div id="sideNav" class="column">
+    <h1>Side Navigation Bar</h1>
+    <div class="navItem">
+        Calendar
+    </div>
+</div>
+
+<div id="main" class="column">
+    <div id="topNav">
+        <span id="topNavDate">{{ get_current_date() }}</span>
+        <div id="topNavBar">
+            <a href="month.html">
+                <button type="button" id="day">Day</button>
+            </a>
+            <a href="week.html">
+                <button type="button" id="week">Week</button>
+            </a>
+            <button type="button" id="month">Month</button>
         </div>
     </div>
-
-    <div id="main" class="column">
-        <div id="topNav">
-            <span id="topNavDate">{{get_current_date() }}</span>
-            <div id="topNavBar">
-              <a href = "month.html">
-                <button type = "button" id = "day">Day</button>
-              </a>
-              <a href = "week.html">
-                <button type = "button" id = "week">Week</button>
-              </a>
-                <button type = "button" id = "month">Month</button>
-            </div>
+    <div id="mainView">
+        <div id="monthView">
+            <table id="dayLabels">
+                <tr class="dayLabelRow">
+                    <td class="dayLabel">Mon</td>
+                    <td class="dayLabel">Tue</td>
+                    <td class="dayLabel">Wed</td>
+                    <td class="dayLabel">Thu</td>
+                    <td class="dayLabel">Fri</td>
+                    <td class="dayLabel">Sat</td>
+                    <td class="dayLabel">Sun</td>
+                </tr>
+            </table>
+            <table id="dayCells">
+                {% for i in range(5) %}
+                    <tr class="dayRow">
+                        {% for j in range(7) %}
+                            <td id="dayCellWrapper">
+                                <table class="dayCell">
+                                    {% for k in range(5) %}
+                                        <tr class="todoRow">
+                                            <td id="todo{{ i * 35 + j * 5 + k }}" class="dayTodo"> Place Holder</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
         </div>
-        <div id="mainView">
-            <div id="monthView">
-                <div id="dayLabels">
-                    <span class="dayLabel">Mon</span>
-                    <span class="dayLabel">Tue</span>
-                    <span class="dayLabel">Wed</span>
-                    <span class="dayLabel">Thu</span>
-                    <span class="dayLabel">Fri</span>
-                    <span class="dayLabel">Sat</span>
-                    <span class="dayLabel">Sun</span>
-                </div>
-                <div id="dayCells">
-                    {% for row in g.month_info %}
-                        <div class="dayRow">
-                        {% for col in row%}
-                            <span class="dayCell">
-                            {% for day in col[1] %}
-                            <span class="dayTodo">{{ day[1] }}</span>
-                            {% endfor %}
-                            </span>
-                        {% endfor%}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-        </div>
-    </div>
-
 
     </div>
-    </div>
+</div>
+
+
 <script src=" .js"></script>
 </body>
 

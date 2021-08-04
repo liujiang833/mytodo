@@ -1,0 +1,114 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+table,td{
+    box-sizing: content-box;
+}
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    height: 100%;
+    width: 100%;
+}
+h1 {
+    font-size: 1.5em;
+}
+.column {
+    float: left;
+    height: 100%;
+}
+
+#sideNav {
+    width: 20%;
+    background-color: #E8E8E8;
+}
+.navItem{
+    background-color: blue;
+}
+
+#main {
+    width: 80%;
+}
+
+#topNav {
+    height: 10%;
+    width: 100%;
+    border-bottom: 0.1em solid black;
+}
+#topNavDate {
+    margin-right: 20vw;
+}
+
+#topNavBar {
+    display: inline;
+}
+
+#day, #week, #month {
+    background-color: #E8E8E8;
+    text-transform: uppercase;
+}
+#mainView{
+    height: 90%;
+    width: 100%;
+}
+#monthView{
+    height: 100%;
+    width: 100%;
+}
+#dayLabels{
+    height: 5%;
+    width: 100%;
+}
+.dayLabelRow{
+    height: 100%;
+    width: 100%;
+    clear: both;
+}
+.dayLabel {
+    float: left;
+    text-align: left;
+    height: 100%;
+    width: 14.27%;
+}
+
+#dayCells{
+    height: 95%;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dayRow{
+    height: 20%;
+    width: 100%;
+    clear: both;
+}
+.dayCellWrapper{
+    float: left;
+    height: 100%;
+    width: 14.27%;
+}
+.dayCell {
+    height: 100%;
+    width: 100%;
+    border: 1px black solid;
+    border-collapse: collapse;
+}
+
+.todoRow{
+    height: 20%;
+    width: 100%;
+    clear: both;
+}
+
+.dayTodo{
+    float: left;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+

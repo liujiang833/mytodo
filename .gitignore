@@ -2,3 +2,4 @@ __pycache__
 instance
 .idea
 .DS_Store
+mytodo/static/js/jsplayground

@@ -19,7 +19,7 @@ default_time = time()
 @login_required
 def index():
     # g.month_info = get_todos_month_default()
-    return render_template("day.html")
+    return render_template("month.html")
 
 
 @bp.context_processor
@@ -30,16 +30,16 @@ def current_date_processor():
     return dict(get_current_date=get_current_date)
 
 
-@bp.route('/content', methods=['POST'])
+@bp.route('/content/range', methods=['POST'])
 def content():
     start_date = str_to_date(request.form['start_date'])
     end_date = str_to_date(request.form['end_date'])
     if start_date is None or end_date is None or session.get('token') is None:
         return json.dumps([])
-    return dbdriver.get_todos_month_json(session['token'], start_date, end_date)
+    return dbdriver.get_todos_json(session['token'], start_date, end_date)
 
 
-@bp.route('/add_todo', methods=['POST'])
+@bp.route('/add_todo/add_todo', methods=['POST'])
 def add_todo():
     todo_date = str_to_date(request.form['date'])
     title = request.form['title']
