@@ -39,7 +39,7 @@ def content():
     return dbdriver.get_todos_json(session['token'], start_date, end_date)
 
 
-@bp.route('/add_todo/add_todo', methods=['POST'])
+@bp.route('/content/add_todo', methods=['POST'])
 def add_todo():
     todo_date = str_to_date(request.form['date'])
     title = request.form['title']
@@ -50,5 +50,5 @@ def add_todo():
             or session.get('token') is None or session.get('user_id') is None:
         return "Fail"
 
-    dbdriver.add_todo(session['user_id'], title, description, start_time, end_time)
+    dbdriver.add_todo(session['user_id'], title, description, todo_date,start_time, end_time)
     return "Success"

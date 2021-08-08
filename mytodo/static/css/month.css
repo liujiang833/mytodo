@@ -3,8 +3,9 @@
     margin: 0;
     padding: 0;
 }
-table,td{
+table{
     box-sizing: content-box;
+    table-layout: fixed;
 }
 html{
     height: 100%;
@@ -55,11 +56,17 @@ h1 {
 #mainView{
     height: 90%;
     width: 100%;
+    grid-template-rows: 100%;
+    grid-template-columns: 100%;
+    display: grid;
 }
 #monthView{
     height: 100%;
     width: 100%;
+    grid-area: 1 /1 /1/1;
+    z-index: 2;
 }
+
 #dayLabels{
     height: 5%;
     width: 100%;
@@ -91,6 +98,8 @@ h1 {
     float: left;
     height: 100%;
     width: 14.27%;
+    min-width: 14.27%;
+    max-width: 14.27%;
 }
 .dayCell {
     height: 100%;
@@ -112,3 +121,50 @@ h1 {
     text-align: center;
 }
 
+#todoInput{
+    height: 100%;
+    width: 100%;
+    grid-area: 1 / 1 / 1/ 1;
+    position: relative;
+    z-index: 1;
+}
+
+/*
+How to position element relative to container
+https://stackoverflow.com/questions/6794000/fixed-position-but-relative-to-container*/
+#todoInputInner{
+    height: 300px;
+    width: 400px;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    background-color: #377ba8;
+    display: none;
+    border: 1px solid black;
+}
+
+#inputTopBar,#inputTitle, #inputDesc{
+    width: 100%;
+    float: left;
+    display: block;
+    clear: both;
+}
+#inputTitle, #inputDesc{
+    box-sizing: border-box;
+    border: 0;
+}
+
+#inputTopBar{
+    height: 10%;
+    background-color: aliceblue;
+    border-bottom: 1px solid black;
+}
+#inputTitle{
+    height: 20%;
+    border-bottom: 1px solid black;
+}
+
+#inputDesc{
+    height: 70%;
+    border-bottom: 1px solid black;
+}

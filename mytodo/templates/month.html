@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="{{ url_for("static",filename="css/month.css") }}">
     <script src="{{ url_for("static", filename="js/jquery-3.6.0.js") }}"></script>
+    <script src="{{ url_for("static",filename="js/moment.js") }}"></script>
     <script src="{{ url_for("static",filename="js/month.js") }}"></script>
     <title>Mytodo</title>
 </head>
@@ -48,7 +49,7 @@
                                 <table class="dayCell">
                                     {% for k in range(5) %}
                                         <tr class="todoRow">
-                                            <td id="todo{{ i * 35 + j * 5 + k }}" class="dayTodo"> Place Holder</td>
+                                            <td id="todo-r{{ i }}c{{ j }}k{{ k }}" class={{ "dayTodo" if k !=0 else "todoDate"}}></td>
                                         </tr>
                                     {% endfor %}
                                 </table>
@@ -58,12 +59,17 @@
                 {% endfor %}
             </table>
         </div>
-
+        <div id="todoInput">
+            <div id="todoInputInner">
+                <div id="inputTopBar">place holder</div>
+                <input id ="inputTitle" type="text" placeholder="What needs doing?">
+                <input id ="inputDesc" type="text", placeholder="More Detail">
+            </div>
+        </div>
     </div>
 </div>
 
 
-<script src=" .js"></script>
 </body>
 
 </html>
