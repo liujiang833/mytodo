@@ -1,3 +1,4 @@
+import calendar
 import json
 
 from .auth import login, login_required
@@ -39,6 +40,16 @@ def content():
     return dbdriver.get_todos_json(session['token'], start_date, end_date)
 
 
+@bp.route('/content/month', methods=['POST'])
+def content_month():
+    curr_date = str_to_date(request.form['date'])
+    if curr_date is None or session.get('token') is None:
+        return json.dumps([])
+    month_dates = list(calendar.Calendar().itermonthdates(curr_date.year, curr_date.month))
+    start_date, end_date = month_dates[0], month_dates[-1]
+    return dbdriver.get_todos_json(session['token'], start_date, end_date)
+
+
 @bp.route('/content/add_todo', methods=['POST'])
 def add_todo():
     todo_date = str_to_date(request.form['date'])
@@ -50,5 +61,5 @@ def add_todo():
             or session.get('token') is None or session.get('user_id') is None:
         return "Fail"
 
-    dbdriver.add_todo(session['user_id'], title, description, todo_date,start_time, end_time)
+    dbdriver.add_todo(session['user_id'], title, description, todo_date, start_time, end_time)
     return "Success"

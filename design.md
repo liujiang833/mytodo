@@ -22,9 +22,13 @@
 #### URL for resources
 * /content/range  
   - ```login_required = True```  
-  - ```GET [start_date, end_date]```:  
+  - ```POST [start_date, end_date]```:  
     return the user's todos from start date to end date in json format.
-
+* /content/month
+  - ```login_required = True```
+  - ```POST [date]```:
+    return todos of each day in the month date belongs to. First week and last week
+    are padded.
 * /content/add_todo  
   - ```login_required = True```
   - ```POST [date, start_time, end_time, title, description]```:  

@@ -43,10 +43,16 @@ h1 {
 }
 #topNavDate {
     margin-right: 20vw;
+    float: left;
 }
 
 #topNavBar {
     display: inline;
+}
+
+#topSwitchBar{
+    display: inline;
+    float: right;
 }
 
 #day, #week, #month {
