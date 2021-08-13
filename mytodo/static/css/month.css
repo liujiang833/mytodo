@@ -71,6 +71,7 @@ h1 {
     width: 100%;
     grid-area: 1 /1 /1/1;
     z-index: 2;
+    display: none;
 }
 
 #dayLabels{
@@ -132,7 +133,8 @@ h1 {
     width: 100%;
     grid-area: 1 / 1 / 1/ 1;
     position: relative;
-    z-index: 1;
+    z-index: -1;
+    display: none;
 }
 
 /*
@@ -145,7 +147,6 @@ https://stackoverflow.com/questions/6794000/fixed-position-but-relative-to-conta
     top: 200px;
     left: 200px;
     background-color: #377ba8;
-    display: none;
     border: 1px solid black;
 }
 
@@ -173,4 +174,36 @@ https://stackoverflow.com/questions/6794000/fixed-position-but-relative-to-conta
 #inputDesc{
     height: 70%;
     border-bottom: 1px solid black;
+}
+
+
+#weekView{
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    grid-area: 1/1/1/1;
+    display: flex;
+    flex-direction: column;
+}
+#weekDates{
+    height: 10%;
+    width: 100%;
+}
+#weekDateRow{
+    height: 100%;
+    width: 100%;
+}
+
+#weekTodosContainer{
+    width: 100%;
+    overflow-y: scroll;
+}
+
+#weekTodos{
+    width: 100%;
+}
+
+.weekTodoRow{
+    height: 15px;
+    width: 100%;
 }

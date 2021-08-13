@@ -29,6 +29,12 @@
   - ```POST [date]```:
     return todos of each day in the month date belongs to. First week and last week
     are padded.
+    
+* /content/week
+  - ```login_required = True```
+  - ```POST [date]```:
+    return todos of each day in the week date belongs to. First week and last week
+    are padded.
 * /content/add_todo  
   - ```login_required = True```
   - ```POST [date, start_time, end_time, title, description]```:  

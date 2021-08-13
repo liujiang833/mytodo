@@ -19,13 +19,9 @@
     <div id="topNav">
         <span id="topNavDate">{{ get_current_date() }}</span>
         <div id="topNavBar">
-            <a href="month.html">
-                <button type="button" id="day">Day</button>
-            </a>
-            <a href="week.html">
-                <button type="button" id="week">Week</button>
-            </a>
-            <button type="button" id="month">Month</button>
+            <button type="button" id="dayButton">Day</button>
+            <button type="button" id="weekButton">Week</button>
+            <button type="button" id="monthButton">Month</button>
         </div>
         <div id="topSwitchBar">
             <button type="button" id="prevButton">&lt</button>
@@ -54,7 +50,8 @@
                                 <table class="dayCell">
                                     {% for k in range(5) %}
                                         <tr class="todoRow">
-                                            <td id="todo-r{{ i }}c{{ j }}k{{ k }}" class={{ "dayTodo" if k !=0 else "todoDate"}}></td>
+                                            <td id="todo-r{{ i }}c{{ j }}k{{ k }}"
+                                                class={{ "dayTodo" if k !=0 else "todoDate" }}></td>
                                         </tr>
                                     {% endfor %}
                                 </table>
@@ -64,11 +61,41 @@
                 {% endfor %}
             </table>
         </div>
+        <div id="weekView">
+            <table id="weekDates">
+                <tr id="weekDateRow">
+                    {% for i in range(7) %}
+                        <td id="weekDate{{ i }}" class="weekDate">--</td>
+                    {% endfor %}
+                </tr>
+            </table>
+            <div id="weekTodosNoTimeContainer">
+                <table id="weekTodosNoTime">
+                </table>
+            </div>
+            <div id="weekTodosContainer">
+                <table id="weekTodos">
+                    <tr id="weekTodoRowContainer">
+                        {% for j in range(7) %}
+                            <td id="weekTodoColContainer">
+                                <table id="weekTodoColTable">
+                                    {% for i in range(48) %}
+                                        <tr class="weekTodoRow">
+                                            <td id="weekTodo-r{{ i }}c{{ j }}" class="weekTodo">{{ i*7+j }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div id="todoInput">
             <div id="todoInputInner">
                 <div id="inputTopBar">place holder</div>
-                <input id ="inputTitle" type="text" placeholder="What needs doing?">
-                <input id ="inputDesc" type="text", placeholder="More Detail">
+                <input id="inputTitle" type="text" placeholder="What needs doing?">
+                <input id="inputDesc" type="text" , placeholder="More Detail">
             </div>
         </div>
     </div>
