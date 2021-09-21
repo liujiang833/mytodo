@@ -1,10 +1,11 @@
 # README 
 
 
-I am currently work on using ReactJS to rewrite the UI.
+I am currently work on using ReactJS to rewrite the UI.  
 Here is some frontend UI:
 
-<img width="1279" alt="month" src="https://user-images.githubusercontent.com/59211560/134262264-c5fe2c0c-8bd5-472c-8d50-54a5944f458b.png">
+
+<img width="1280" alt="month" src="https://user-images.githubusercontent.com/59211560/134262560-0d8aac50-51d0-4214-9607-91c666bd6c59.png">
 
 ## Install
 
