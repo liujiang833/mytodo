@@ -3,6 +3,9 @@ var firstDay;// first day of a month, used as an anchor point to compute index
 var inputRow, inputCol;
 var displayDate; // controls which month to load
 var displayMode;
+var cellIsNew;
+var todoNumber;
+var index;
 const MONTH = "month", DAY = "day", WEEK = "week";
 const PREV = "prev", NEXT = "next", TODAY = "today";
 /*
@@ -16,10 +19,22 @@ $(document).ready(function () {
     // handler for click events of todo get clicked
     $(".dayTodo").click(function (event) {
         //how to get the selected element:  https://stackoverflow.com/questions/16091823/get-clicked-element-using-jquery-on-event
-        showInputBox();
         let id = event.target.id;
         let [row, col, k] = id.match(/[0-9]+/g);
         row = parseInt(row), col = parseInt(col), k = parseInt(k);
+        index = row * 7 + col;
+        dayData = monthTodo[row * 7 + col];
+        let title, desc;
+        if(dayData[1].length >= k && k <=4){
+            title = dayData[1][k -1]['title'];
+            desc = dayData[1][k -1]['description'];
+            todoNumber = dayData[1][k-1]['todo_number'];
+        }else {
+            title = "";
+            desc = "";
+            todoNumber = "";
+        }
+        showInputBox(dayData[0].format("MM-DD"),title ,desc);
         let pInfo = document.getElementById("todoInput").getBoundingClientRect();
         let boxTop = (row * 5 + k) / 25 * pInfo.height;
         let boxLeft = (col + 1) / 7 * pInfo.width;
@@ -36,9 +51,10 @@ $(document).ready(function () {
     // close inpubox
     $("#todoInput").click(function (event) {
         if (event.target === this) {
-            addTodo(inputRow, inputCol);
+            updateTodo(inputRow, inputCol);
             document.getElementById("inputTitle").value = "";
             document.getElementById("inputDesc").value = "";
+            console.log("hidding box")
             hideInputBox();
         }
 
@@ -57,6 +73,13 @@ $(document).ready(function () {
         loadMonth(displayDate);
         swtichView("monthView");
     });
+
+    $("#inputDelete").click(function () {
+        hideInputBox();
+        console.log(index)
+        deleteTodoUtil();
+    });
+
 });
 
 /* ===================================Helper functions====================================================================*/
@@ -68,13 +91,18 @@ function dayDiff(day1, day2) {
 }
 
 
-function addTodo(row, col) {
-    index = row * 7 + col;
+function updateTodo() {
     date = monthTodo[index][0].toISOString().slice(0, 10);
     title = document.getElementById("inputTitle").value;
     desc = document.getElementById("inputDesc").value;
-    if (title !== "" || desc !== "")
-        addTodoUtil(date, title, desc);
+    if (title !== "" || desc !== ""){
+        if(cellIsNew){
+            addTodoUtil(date, title, desc);
+        }else{
+            console.log("update gets called")
+            updateTodoUtil(date,title,desc,todoNumber);
+        }
+    }
 }
 
 
@@ -86,18 +114,54 @@ function addTodoUtil(date, title, description) {
             "title": title,
             "description": description
         }, function (data, status) {
-            console.log(data);
+            syncDay(data);
         }
     );
-
 }
 
+function updateTodoUtil(date,title,description,todo_number) {
+    $.post(
+        "/content/update_todo",
+        {
+            "date": date,
+            "title": title,
+            "description": description,
+            "todo_number": todo_number
+        }, function (data, status) {
+            syncDay(data);
+        }
+    );
+}
+
+function deleteTodoUtil() {
+    $.post(
+        "/content/delete_todo",
+        {
+            "todo_number":todoNumber
+        }, function (data,status) {
+            syncDay(data);
+        }
+    );
+}
+
+function syncDay(data) {
+    data = JSON.parse(data)
+    monthTodo[index] = data[0];
+    monthTodo[index][0] = moment(monthTodo[index][0])
+    console.log(monthTodo[index])
+    updateDayCell(monthTodo[index]);
+}
 function setInputBoxPos(top, left) {
     document.getElementById("todoInputInner").style.top = top;
     document.getElementById("todoInputInner").style.left = left;
 }
 
-function showInputBox() {
+function showInputBox(date, title, desc) {
+    cellIsNew = title === "" && desc === "";
+    console.log("date",date,"|")
+    document.getElementById("inputDate").innerHTML = date;
+    document.getElementById("inputTitle").value =title;
+    document.getElementById("inputDesc").value =desc;
     document.getElementById("todoInput").style.zIndex = "3";
     document.getElementById("todoInput").style.display = "block";
 }
@@ -111,7 +175,7 @@ function loadMonth(displayDate) {
     //change month at top left cornor
     document.getElementById("topNavDate").innerHTML = displayDate.format("MMM, YYYY");
     //clear all month data cells
-    $(".dayTodo").empty();
+    // $(".dayTodo").empty();
     //load and display new ones
     $.post(
         "/content/month",
@@ -208,12 +272,19 @@ function updateDayCell(day) {
     let dayIndex = dayDiff(firstDay, day[0]);
     let row = parseInt(dayIndex / 7), col = dayIndex % 7;
     document.getElementById(`todo-r${row}c${col}k${0}`).innerHTML = day[0].date();
+    document.getElementById(`todo-r${row}c${col}k${1}`).innerHTML = "";
+    document.getElementById(`todo-r${row}c${col}k${2}`).innerHTML ="" ;
+    document.getElementById(`todo-r${row}c${col}k${3}`).innerHTML ="" ;
+    document.getElementById(`todo-r${row}c${col}k${4}`).innerHTML ="" ;
+
     //fill with new data
     day[1].forEach((todo, index) => {
         if (index < 4) {
             document.getElementById(`todo-r${row}c${col}k${index + 1}`).innerHTML = todo['title'];
         }
     });
+    if( day[1].length > 4)
+        document.getElementById(`todo-r${row}c${col}k${4}`).innerHTML = "+ "+(day[1].length -3) + " more ...";
 }
 
 function move(dir) {

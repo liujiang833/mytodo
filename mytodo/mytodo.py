@@ -62,4 +62,35 @@ def add_todo():
         return "Fail"
 
     dbdriver.add_todo(session['user_id'], title, description, todo_date, start_time, end_time)
-    return "Success"
+    return dbdriver.get_todos_json(session['token'], todo_date, todo_date)
+
+
+@bp.route('/content/update_todo', methods=['POST'])
+def update_todo():
+    todo_date = str_to_date(request.form['date'])
+    title = request.form['title']
+    description = request.form['description']
+    start_time = str_to_time(request.form['start_time']) if request.form.get('start_time') is not None else default_time
+    end_time = str_to_time(request.form['end_time']) if request.form.get('end_time') is not None else default_time
+    todo_number = request.form.get('todo_number')
+    if todo_date is None or start_time is None or end_time is None \
+            or session.get('token') is None or session.get('user_id') is None \
+            or todo_number is None:
+        return "Fail"
+
+    if not dbdriver.update_todo(session['user_id'], title, description, todo_date, start_time, end_time, todo_number):
+        return "Fail"
+    return dbdriver.get_todos_json(session['token'], todo_date, todo_date)
+
+
+@bp.route('/content/delete_todo', methods=['POST'])
+def delete_todo():
+    todo_number = request.form.get('todo_number')
+    if session.get('token') is None or session.get('user_id') is None \
+            or todo_number is None:
+        return "Fail"
+    todo_date = dbdriver.delete_todo(todo_number)
+    if todo_date is None:
+        return "Fail"
+
+    return dbdriver.get_todos_json(session['token'], todo_date, todo_date)

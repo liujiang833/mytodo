@@ -8,12 +8,12 @@
     <title>Mytodo</title>
 </head>
 <body>
-<div id="sideNav" class="column">
-    <h1>Side Navigation Bar</h1>
-    <div class="navItem">
-        Calendar
-    </div>
-</div>
+{#<div id="sideNav" class="column">#}
+{#    <h1>Side Navigation Bar</h1>#}
+{#    <div class="navItem">#}
+{#        Calendar#}
+{#    </div>#}
+{#</div>#}
 
 <div id="main" class="column">
     <div id="topNav">
@@ -27,6 +27,7 @@
             <button type="button" id="prevButton">&lt</button>
             <button type="button" id="todayButton">Today</button>
             <button type="button" id="nextButton">&gt</button>
+            <a href={{ url_for("auth.logout") }}><button>Log Out</button></a>
         </div>
     </div>
     <div id="mainView">
@@ -93,7 +94,10 @@
         </div>
         <div id="todoInput">
             <div id="todoInputInner">
-                <div id="inputTopBar">place holder</div>
+                <div id="inputTopBar">
+                    <div id="inputDate"></div>
+                    <button id="inputDelete" type="button">Delete</button>
+                </div>
                 <input id="inputTitle" type="text" placeholder="What needs doing?">
                 <input id="inputDesc" type="text" , placeholder="More Detail">
             </div>

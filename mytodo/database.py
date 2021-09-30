@@ -81,6 +81,31 @@ class DbDriver:
         session.commit()
         session.close()
 
+    def update_todo(self, user_id: int, title: str, description: str, todo_date: date, start: time, end: time,todo_number):
+        session = self.get_session()
+        query = session.query(Todo.todo_number) \
+            .select_from(User).join(Todo) \
+            .filter(User.user_id ==user_id).filter(Todo.todo_number == todo_number).all()
+        result = [row._asdict() for row in query]
+        if len(result) != 1:
+            return False
+        session.query(Todo).filter(Todo.todo_number == todo_number).update({'title': title,'description':description})
+        session.commit()
+        session.close()
+        return True
+
+    def delete_todo(self,todo_number):
+        session = self.get_session()
+        todos = session.query(Todo).filter(Todo.todo_number == todo_number).all()
+        if len(todos) != 1:
+            return None
+        todo = todos[0]
+        date_to_update = todo.date
+        session.query(Todo).filter(Todo.todo_number == todo_number).delete()
+        session.commit()
+        session.close()
+        return date_to_update
+
     def get_todos_json(self, token: str, start_date: date, end_date: date):
         result = self.get_todos(token, start_date, end_date)
         result = organize_and_pad(result, start_date, end_date)
@@ -89,6 +114,7 @@ class DbDriver:
     def get_todos(self, token: str, start_date: date, end_date: date):
         """
             :return: todos of a specific user between [start, end]
+            Note: one additional column is returned: Todo.todo_number
             sample result:
             [{'date': datetime.date(2021, 7, 15), 'start': datetime.time(0, 0), 'end': datetime.time(0, 0), 'title': 'title1', 'description': 'desc1'},
             {'date': datetime.date(2021, 7, 15), 'start': datetime.time(0, 0), 'end': datetime.time(0, 0), 'title': 'title2', 'description': 'desc2'},
@@ -100,7 +126,7 @@ class DbDriver:
 
         """
         session = self.get_session()
-        query = session.query(Todo.date,Todo.start, Todo.end, Todo.title, Todo.description) \
+        query = session.query(Todo.date,Todo.start, Todo.end, Todo.title, Todo.description, Todo.todo_number) \
             .select_from(User).join(Todo) \
             .filter(User.token == token).filter(Todo.date >= start_date).filter(Todo.date <= end_date).all()
         result = [row._asdict() for row in query]

@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+import datetime
 
 
 def create_app(test_config=None):
@@ -7,6 +8,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
+        # PERMANENT_SESSION_LIFETIME=datetime.timedelta(minutes=1)
     )
 
     app.static_folder = 'static'
